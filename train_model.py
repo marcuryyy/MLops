@@ -76,8 +76,6 @@ if __name__ == "__main__":
     best_run = df_runs.sort_values("metrics.r2", ascending=False).iloc[0]
     print(f"\nЛучший запуск ID: {best_run.run_id}")
     print(f"Лучший R2 score: {best_run['metrics.r2']:.4f}")
-
-    mlflow.end_run()
     
     best_model_path = f"runs:/{best_run.run_id}/model"
     with open("best_model.txt", "w") as f:
