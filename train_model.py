@@ -79,7 +79,6 @@ if __name__ == "__main__":
 
     mlflow.end_run()
     
-    # Сохраняем путь к лучшей модели в файл
     best_model_path = f"runs:/{best_run.run_id}/model"
     with open("best_model.txt", "w") as f:
         f.write(best_model_path)
