@@ -70,13 +70,7 @@ if __name__ == "__main__":
 
         joblib.dump(best, 'diamonds_model_clean.pkl')
 
-        print(f"R2: {r2:.4f}")
 
     df_runs = mlflow.search_runs()
-    best_run = df_runs.sort_values("metrics.r2", ascending=False).iloc[0]
-    print(f"\nЛучший запуск ID: {best_run.run_id}")
-    print(f"Лучший R2 score: {best_run['metrics.r2']:.4f}")
-    
-    best_model_path = f"runs:/{best_run.run_id}/model"
-    with open("best_model.txt", "w") as f:
-        f.write(best_model_path)
+    path2model = df_runs.sort_values("metrics.r2", ascending=False).iloc[0]['artifact_uri'].replace("file://","") + '/model' #путь до эксперимента с лучшей моделью
+    print(path2model)
