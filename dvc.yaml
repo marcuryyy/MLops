@@ -1,0 +1,35 @@
+stages:
+  clean_data:
+    cmd: python src/clear_data.py
+    deps:
+    - src/clear_data.py
+    - data/diamonds.csv
+    outs:
+    - data/diamonds_clean.csv
+
+  generate_features:
+    cmd: python src/new_features.py
+    deps:
+    - src/new_features.py
+    - data/diamonds_clean.csv
+    outs:
+    - data/diamonds_features.csv
+
+  train_model:
+    cmd: python src/train_model.py
+    deps:
+    - src/train_model.py
+    - data/diamonds_features.csv
+    outs:
+    - models/model.joblib
+    - mlruns/
+
+
+  evaluate_model:
+    cmd: python src/evaluate.py
+    deps:
+    - src/evaluate.py
+    - models/model.joblib
+    - data/diamonds_features.csv
+    metrics:
+    - reports/metrics.json

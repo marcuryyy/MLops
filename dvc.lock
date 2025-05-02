@@ -1,0 +1,75 @@
+schema: '2.0'
+stages:
+  clean_data:
+    cmd: python src/clear_data.py
+    deps:
+    - path: data/diamonds.csv
+      hash: md5
+      md5: a154da86d0a81976bc0fb5ccbc40e256
+      size: 2625846
+    - path: src/clear_data.py
+      hash: md5
+      md5: c785548493441feb58c21d77b3df37c8
+      size: 1579
+    outs:
+    - path: data/diamonds_clean.csv
+      hash: md5
+      md5: e9c22982de919172f6521ec2ed29fd56
+      size: 10317833
+  generate_features:
+    cmd: python src/new_features.py
+    deps:
+    - path: data/diamonds_clean.csv
+      hash: md5
+      md5: e9c22982de919172f6521ec2ed29fd56
+      size: 10317833
+    - path: src/new_features.py
+      hash: md5
+      md5: cd02e0a6b5c1d19be33200613e87fb37
+      size: 541
+    outs:
+    - path: data/diamonds_features.csv
+      hash: md5
+      md5: abac373b19ce139d6103773b0665cfc4
+      size: 11527739
+  train_model:
+    cmd: python src/train_model.py
+    deps:
+    - path: data/diamonds_features.csv
+      hash: md5
+      md5: abac373b19ce139d6103773b0665cfc4
+      size: 11527739
+    - path: src/train_model.py
+      hash: md5
+      md5: 898f62a0f48352555f462d094b5eadb5
+      size: 1424
+    outs:
+    - path: mlruns/
+      hash: md5
+      md5: 12fdb23427e989d5910e5cccc773ef47.dir
+      size: 6244
+      nfiles: 34
+    - path: models/model.joblib
+      hash: md5
+      md5: e3212271c1f4e9377f1a3f8c9fb8a235
+      size: 1696
+  evaluate_model:
+    cmd: python src/evaluate.py
+    deps:
+    - path: data/diamonds_features.csv
+      hash: md5
+      md5: abac373b19ce139d6103773b0665cfc4
+      size: 11527739
+    - path: models/model.joblib
+      hash: md5
+      md5: e3212271c1f4e9377f1a3f8c9fb8a235
+      size: 1696
+    - path: src/evaluate.py
+      hash: md5
+      md5: 7aa8fa3a2fb42698d95b624a7da91cc7
+      size: 964
+    outs:
+    - path: reports/metrics.json
+      hash: md5
+      md5: f92037bdfd1e4ef47b516389a0bf5931
+      size: 80
